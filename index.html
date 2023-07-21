@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/ico" href="img/favicon.ico">
+
+    <title>Super Hero</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato&family=Roboto+Serif:wght@300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Lato", sans-serif;
+        font-family: "Roboto Serif", serif;
+      }
+      .imgEfect {
+        border-radius: 8px;
+        box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.2);
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <nav class="navbar navbar-light bg-light">
+          <span class="navbar-brand mb-0 h1">Busqueda de Héroes</span>
+          <button onclick="getRandomHeroe()" class="btn btn-primary">
+            Actualizar
+          </button>
+        </nav>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div class="card" style="width: 40rem">
+          <div class="text-center m-1">
+            <img class="imgEfect" src="" width="250px" id="img-superheroe" />
+          </div>
+          <div class="card-header">
+            <h5 class="text-center">
+              Super Héroe: <b id="name"></b>
+            </h5>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <p><b>Powerstats</b></p>
+                <ul id="list-powerstats"></ul>
+                <p><b>Appearance</b></p>
+                <ul id="list-appearance"></ul>
+              </div>
+              <div class="col-md-6">
+                <p><b>Biography</b></p>
+                <ul id="list-biography"></ul>
+                <p><b>Connections</b></p>
+                <ul id="list-connections"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+<script
+  src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+  crossorigin="anonymous"
+></script>
+<script>
+  const getRandomHeroe = async () => {
+    const options = {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Key": "63b1e2daeemshede76304436993dp132bdajsnf2d5403fccb7",
+        "X-RapidAPI-Host": "superhero-search.p.rapidapi.com",
+      },
+    };
+    const res = await fetch(
+      "https://superhero-search.p.rapidapi.com/api/heroes",
+      options
+    );
+    const data = await res.json();
+    console.log(data);
+    document.getElementById("name").innerHTML = data[0].name;
+    document.getElementById("img-superheroe").src = data[0].images.sm;
+    document.getElementById("list-powerstats").innerHTML = "";
+    for (let clave in data[0].powerstats) {
+      document.getElementById("list-powerstats").innerHTML +=
+        "<li>" + clave + ": " + data[0].powerstats[clave] + "</li>";
+    }
+    document.getElementById("list-appearance").innerHTML = "";
+    for (let clave in data[0].appearance) {
+      document.getElementById("list-appearance").innerHTML +=
+        "<li>" + clave + ": " + data[0].appearance[clave] + "</li>";
+    }
+    document.getElementById("list-biography").innerHTML = "";
+    for (let clave in data[0].biography) {
+      document.getElementById("list-biography").innerHTML +=
+        "<li>" + clave + ": " + data[0].biography[clave] + "</li>";
+    }
+    document.getElementById("list-connections").innerHTML = "";
+    for (let clave in data[0].connections) {
+      document.getElementById("list-connections").innerHTML +=
+        "<li>" + clave + ": " + data[0].connections[clave] + "</li>";
+    }
+  };
+
+  getRandomHeroe();
+</script>
